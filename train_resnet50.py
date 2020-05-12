@@ -135,12 +135,13 @@ model.compile(
     target_tensors=[train_labels]
 )
 
-log_dir = '{}/xray-finish_0_0_0_1'.format(LOG_DIR)
+log_dir='{}/xray-{}'.format(LOG_DIR, datetime.now())
 model.fit(
     (train_images, train_labels),
-    epochs=100,
+    epochs=80,
     steps_per_epoch=int(np.ceil(TRAINSET_SIZE / float(BATCH_SIZE))),
     callbacks=[
+        lrate,
         tf.keras.callbacks.TensorBoard(log_dir),
         Validation(log_dir, validation_files=glob.glob(test_path), batch_size=BATCH_SIZE)
     ]
